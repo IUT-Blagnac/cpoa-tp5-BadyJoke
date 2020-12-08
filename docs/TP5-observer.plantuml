@@ -1,0 +1,60 @@
+@startuml
+class CourseController [[java:tp5.Obs.pattern.CourseController]] {
+	-Vector<JSlider> sliders
+	-JPanel coursePanel
+	+CourseController(CourseData courses)
+	+void addCourse(CourseRecord record)
+	+void update(Observable o)
+	+void actionPerformed(ActionEvent arg0)
+	+void stateChanged(ChangeEvent arg0)
+	+{static}void main(String[] args)
+}
+class CourseData [[java:tp5.Obs.pattern.CourseData]] {
+}
+CourseController --> "1" CourseData : courseData
+class JPanel [[java:javax.swing.JPanel]] {
+}
+JPanel <|-- CourseController
+interface Observer [[java:tp5.Obs.pattern.Observer]] {
+}
+Observer <|.. CourseController
+interface ChangeListener [[java:javax.swing.event.ChangeListener]] {
+}
+ChangeListener <|.. CourseController
+interface ActionListener [[java:java.awt.event.ActionListener]] {
+}
+ActionListener <|.. CourseController
+abstract class Observable [[java:tp5.Obs.pattern.Observable]] {
+	#Vector<Observer> observers
+	+Observable()
+	+void attach(Observer o)
+	+void detach(Observer o)
+	+void notifyObservers()
+	+{abstract}Object getUpdate()
+}
+class CourseData [[java:tp5.Obs.pattern.CourseData]] {
+	-Vector<CourseRecord> courseData
+	+CourseData()
+	+void addCourseRecord(CourseRecord courseRecord)
+	+void changeCourseRecord(String subjectName, int numOfStudents)
+	+Vector<CourseRecord> getUpdate()
+}
+abstract class Observable [[java:tp5.Obs.pattern.Observable]] {
+}
+Observable <|-- CourseData
+class BarChartObserver [[java:tp5.Obs.pattern.BarChartObserver]] {
+	-Vector<CourseRecord> courseData
+	+BarChartObserver(CourseData data)
+	+void paint(Graphics g)
+	+void update(Observable o)
+}
+class JPanel [[java:javax.swing.JPanel]] {
+}
+JPanel <|-- BarChartObserver
+interface Observer [[java:tp5.Obs.pattern.Observer]] {
+}
+Observer <|.. BarChartObserver
+interface Observer [[java:tp5.Obs.pattern.Observer]] {
+	void update(Observable o)
+}
+@enduml
